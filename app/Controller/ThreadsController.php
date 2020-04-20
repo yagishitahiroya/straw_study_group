@@ -7,7 +7,7 @@ class ThreadsController extends AppController {
         $this->set('threads', $this->Thread->find('all'));
     }
     
-    public function thread_add() {
+    public function add() {
         if ($this->request->is('post')) {
             $this->Thread->create();
             if ($this->Thread->save($this->request->data)) {
