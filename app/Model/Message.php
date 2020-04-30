@@ -1,5 +1,8 @@
 <?php
 
 class Message extends AppModel {
-    public $belongsTo = 'Thread';
+    public $validate = ['body' => ['rule' => 'notBlank']];
+    
+    public $belongsTo = ['Thread','User'];
+
 }

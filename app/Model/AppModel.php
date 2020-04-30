@@ -30,4 +30,14 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+
+    public function save($data = null, $validate = true, $fieldList = array()) {
+        // 保存前に modified フィールドをクリアする
+        $this->set($data);
+        if (isset($this->data[$this->alias]['modified'])) {
+            unset($this->data[$this->alias]['modified']);
+        }
+        return parent::save($this->data, $validate, $fieldList);
+    }
+
 }
