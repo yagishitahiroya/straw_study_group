@@ -1,0 +1,127 @@
+.balloon6 {
+    width: 100%;
+    margin: 10px 0;
+    overflow: hidden;
+  }
+  
+  .balloon6 .faceicon {
+    float: left;
+    margin-right: -50px;
+    margin-top: 50px;
+    width: 100px;
+  }
+  
+  .balloon6 .faceicon img{
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+  }
+  .balloon6 .chatting {
+    width: 100%;
+    text-align: left;
+    margin-top: 50px;
+  }
+  .says {
+    display: inline-block;
+    position: relative; 
+    margin: 0 0 0 50px;
+    padding: 10px;
+    max-width: 650px;
+    border-radius: 12px;
+    background: #edf1ee; 
+    word-wrap:break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .says:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 3px; 
+    left: -19px;
+    border: 8px solid transparent;
+    border-right: 18px solid #edf1ee;
+    -webkit-transform: rotate(35deg);
+    transform: rotate(35deg);
+    word-wrap:break-word;
+    overflow-wrap: break-word;
+  }
+  .says p {
+    margin: 0;
+    padding: 0;
+    width:auto;
+    height: auto;
+    word-wrap:break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .card-text {
+    word-wrap:break-word;
+    overflow-wrap: break-word;
+    max-width: 1000px;
+  }
+
+  
+
+  /*以下、③右側の緑コメント*/
+  .mycomment {
+    margin: 10px 0;
+  }
+  .mycomment p {
+    display: inline-block;
+    position: relative; 
+    margin: 0 10px 0 0;
+    padding: 8px;
+    max-width: 250px;
+    border-radius: 12px;
+    background: #30e852;
+    font-size: 15px:
+  }
+  
+  .mycomment p:after {
+    content: "";
+    position: absolute;
+    top: 3px; 
+    right: -19px;
+    border: 8px solid transparent;
+    border-left: 18px solid #30e852;
+    -webkit-transform: rotate(-35deg);
+    transform: rotate(-35deg);
+  }
+
+.chat_margin{
+    margin-bottom: 120px;
+}
+
+#page-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 80%;
+}
+ 
+#page-top a {
+    display: block;
+    background: #666;
+    color: #fff;
+    width: 100px;
+    padding: 25px 0;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+}
+ 
+#page-top a:hover {
+    background: #999;
+    text-decoration: none;
+}
+
+.chat_re {
+    margin: 47px 30px;
+}
+
+
+.pagination-thread {
+  
+  font-size: 25px;;
+}
