@@ -18,17 +18,19 @@ class MessagesController extends AppController {
     public function add() {
         if ($this->request->is('post')) {
             $this->Message->create();
-            if ($this->Message->save($this->request->data)) {
-                $this->Flash->success(__('投稿しました。'));
+            $message = $this->request->data;
+            $message['Message']['user_id'] = $this->Auth->user('id');
+            if ($this->Message->save($message)) {
+                $this->Flash->flash_success(__('投稿しました。'));
                 //https://book.cakephp.org/1.3/ja/The-Manual/Developing-with-CakePHP/Controllers.html
                 //$this->dataにデータが入っている(FormHelper のフォームからコントローラに送られた、POST データ)
                 return $this->redirect(['action' => 'view', $this->data['Message']['thread_id']]);
             }
-            $this->Flash->error(__('投稿に失敗しました。'));
+            $this->Flash->flash_error(__('投稿に失敗しました。'));
         }
     }
 
-    public function edit($id = null, $thread_id = null) {
+    public function edit($id = null, $thread_id = null, $user_id = null) {
         if (!$id) {
             throw new NotFoundException(__('無効な投稿です。'));
         }
@@ -38,26 +40,43 @@ class MessagesController extends AppController {
             throw new NotFoundException(__('無効な投稿です。'));
         }
 
+        if ($user_id !== $this->Auth->user('id')) {
+            $this->Flash->flash_error(
+                __('他のユーザーの投稿は編集できません')
+            );
+            return $this->redirect(['action' => 'view', $thread_id]);
+        }
+
         if ($this->request->is(['post', 'put'])) {
             $this->Message->id = $id;
+            $message = $this->request->data;
+            $message['Message']['user_id'] = $this->Auth->user('id');
             if ($this->Message->save($this->request->data)) {
-                $this->Flash->success(__('編集に成功しました。'));
+                $this->Flash->flash_success(__('編集に成功しました。'));
                 return $this->redirect(['action' => 'view', $thread_id]);
             }
-            $this->Flash->error(__('編集に失敗しました。'));
+            $this->Flash->flash_error(__('編集に失敗しました。'));
         }
         if (!$this->request->data) {
             $this->request->data = $message;
         }
+        $this->set(compact('message'));
     }
 
-    public function delete($id = null, $thread_id = null) {
+    public function delete($id = null, $thread_id = null, $user_id = null) {
         if ($this->request->is('get')) {
             throw new MethodNotAllowedException();
         }
         
+        if ($user_id !== $this->Auth->user('id')) {
+            $this->Flash->flash_error(
+                __('他のユーザーの投稿は削除できません')
+            );
+            return $this->redirect(['action' => 'view', $thread_id]);
+        }
+
         if ($this->Message->delete($id)) {
-            $this->Flash->success(
+            $this->Flash->flash_success(
                 __('投稿を削除しました。 ')
             );
             
@@ -66,9 +85,6 @@ class MessagesController extends AppController {
                 __('投稿を削除できませんでした。')
             );
         }
-        //$this->log($thread_id, LOG_DEBUG);
-        //$threadId = $message->thread_id;
-        //$message = $this->Message->get($id, ['contain' => ['thread_id']]);
         return $this->redirect(['action' => 'view', $thread_id]);
     }
 }

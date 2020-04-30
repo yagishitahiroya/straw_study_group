@@ -33,8 +33,37 @@ App::uses('Controller', 'Controller');
 class AppController extends Controller {
     //public $components = array('DebugKit.Toolbar');
     public $components = array(
-        'DebugKit.Toolbar',
+        //'DebugKit.Toolbar',
         'Flash',
+        'Auth' => [
+            'loginRedirect' => [
+                'controller' => 'threads',
+                'action' => 'threads'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'users',
+                'action' => 'login'
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'passwordHasher' => 'Blowfish'
+                ]
+            ]
+        ]
     );
 
+    //レイアウト変更
+    public $layout = 'straw_study_group';
+
+    public function beforeFilter() {
+        $this->Auth->allow('login','logout');
+        $this->set('auth', $this->Auth->user());
+    }
+
+    public function isAuthorized($user) {
+        $this->redirect($this->referer([
+            'controller' => 'users', 
+            'action' => 'index'
+        ]));
+    }
 }

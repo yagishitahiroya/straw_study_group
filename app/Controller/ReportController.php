@@ -1,33 +1,22 @@
 <?php
 
-class ThreadsController extends AppController {
-    public $helpers = ['Html', 'Form'];
-
-    public $paginate = array(
-        'limit' => 5,
-        'order' => array(
-            'Thread.id' => 'asc'
-        )
-    );
-
-    public function threads() {
-        //$threads = $this->Thread->find('all');
-        //$this->set(compact('threads'));
-
-        $this->set('threads', $this->paginate());
+class ThoughtsController extends AppController {
+    
+    public function index(){
+        $reports = $this->Report->find('all');
 
     }
-    
+
     public function add() {
         if ($this->request->is('post')) {
-            $this->Thread->create();
-            $this->Thread->user_id = $this->Auth->user('id');
-            $thread = $this->request->data;
+            $this->Report->create();
+            $this->Report->user_id = $this->Auth->user('id');
+            $report = $this->request->data;
             //$this->log($thread, LOG_DEBUG);
-            $thread['Thread']['user_id'] = $this->Auth->user('id');
-            if ($this->Thread->save($thread)) {
+            $report['Report']['user_id'] = $this->Auth->user('id');
+            if ($this->Report->save($report)) {
                 $this->Flash->flash_success(__('スレッドが保存されました'));
-                return $this->redirect(['action' => 'threads']);
+                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->flash_error(__('スレッドを追加できませんでした'));
         }
@@ -38,7 +27,7 @@ class ThreadsController extends AppController {
             throw new NotFoundException(__('無効なスレッドです'));
         }
     
-        $thread = $this->Thread->findById($id);
+        $report= $this->Report->findById($id);
         if (!$thread) {
             throw new NotFoundException(__('無効なスレッドです'));
         }
@@ -95,7 +84,6 @@ class ThreadsController extends AppController {
         if (in_array($this->action, [
             'add',
             'edit',
-            'threads',
             'index'])) {
                 return true;
         }
