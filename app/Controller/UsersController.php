@@ -18,8 +18,8 @@ class UsersController extends AppController {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
                 $this->Flash->flash_success(__('ユーザー登録に成功しました。'));
-                unset($this->request->data['User']['password']);
-                $this->Auth->login($this->request->data['User']);
+                //unset($this->request->data['User']['password']);
+                $this->Auth->login();
                 return $this->redirect(['controller' => 'threads', 'action' => 'threads']);
                 //return $this->redirect(['action' => 'index']);
             }
