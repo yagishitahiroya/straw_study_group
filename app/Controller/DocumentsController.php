@@ -35,6 +35,8 @@ class DocumentsController extends AppController {
             $data_save_path = WWW_ROOT.DS.'img'.DS.'uploads'. DS;
             $move_uploaded_file = move_uploaded_file($file['filename']['tmp_name'], $data_save_path.$upload_file_rename."_".$file['filename']['name']);
             
+            $this->log($move_uploaded_file,LOG_DEBUG);
+
             if ($move_uploaded_file) {
                 $this->Document->save($data);
                 $this->Flash->flash_success('アップロードしました');
