@@ -55,7 +55,9 @@ class ThreadsController extends AppController
             //$this->log($thread, LOG_DEBUG);
             $thread['Thread']['user_id'] = $this->Auth->user('id');
             if ($this->Thread->save($thread)) {
-                $this->chatWorkNotification($thread);
+                $this->log($this->Thread->getLastInsertID(), LOG_DEBUG);
+                $last_id = $this->Thread->getLastInsertID();
+                $this->chatWorkNotification($thread, $last_id);
                 $this->Flash->flash_success(__('スレッドが保存されました'));
                 return $this->redirect(['action' => 'threads']);
             }
@@ -63,18 +65,23 @@ class ThreadsController extends AppController
         }
     }
 
-    public function chatWorkNotification($thread) 
+    public function chatWorkNotification($thread, $last_id) 
     {
         //chatworkに通知を送るメソッド
-        //HttpSocket()を利用して送信の場合post
+        //HttpSocket()
         $Auth = $this->Auth->user('nickname');
-        $content = $Auth . "さんがスレッドを投稿しました！";
+        $type = $thread['Thread']['type'];
+        $title = $thread['Thread']['title'];
+        $details = $thread['Thread']['details'];
+        $thread_url = "http://localhost:9000/messages/view/" . $last_id;
+        $content = "[info][title]". $Auth . "さんがスレッドを投稿しました！" ."[/title]". "\n" . "【スレッドタイプ】: " . $type . "\n" . 
+                    "【タイトル】: " . $title . "\n" . "【詳細】: " . $details . "\n" . "このスレッドを見にいく ➡️ ". $thread_url . "[/info]";
         $request = ['header' => [
-            'X-ChatWorkToken' => CHATWORKTOKEN,
+            'X-ChatWorkToken' => 'a580f264a153a95e87ab5a99ee49a3d8',
             'Content-Type' => 'application/x-www-form-urlencoded'],
             'body' => ['body' => $content]
             ];
-        $url = "https://api.chatwork.com/v2/rooms/". CHATWORKROOMID ."/messages";
+        $url = "https://api.chatwork.com/v2/rooms/151590091/messages";
 
         //$thread_data = $this->Thread->findById($thread['Thread']['id']);
         $data = [];
