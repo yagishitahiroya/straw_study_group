@@ -1,7 +1,8 @@
 <?php
 App::uses('Folder', 'Utility'); 
 
-class DocumentsController extends AppController {
+class DocumentsController extends AppController 
+{
 
     public $paginate = array(
         'limit' => 5,
@@ -10,11 +11,13 @@ class DocumentsController extends AppController {
         )
     );
 
-    public function index() {
+    public function index() 
+    {
         $this->set('documents', $this->paginate());
     }
     
-    public function add(){
+    public function add()
+    {
 
         if (!empty($this->request->data)) {
 
@@ -49,7 +52,8 @@ class DocumentsController extends AppController {
         //fileパスしてしてあげてダウンロードする。
     }
 
-    public function download($filename = null, $name = null) {
+    public function download($filename = null, $name = null) 
+    {
         $this->autoRender = false;
         $path = WWW_ROOT.DS.'img'.DS.'uploads'. DS.$filename;
 
@@ -61,7 +65,8 @@ class DocumentsController extends AppController {
         }
     }
 
-    public function edit($id = null, $user_id = null) {
+    public function edit($id = null, $user_id = null) 
+    {
         if (!$id) {
             throw new NotFoundException(__('Invalid post'));
         }
@@ -119,7 +124,8 @@ class DocumentsController extends AppController {
         $this->set(compact('document'));
     }
 
-    public function delete($id = null , $user_id = null) {
+    public function delete($id = null , $user_id = null) 
+    {
         if ($this->request->is('get')) {
             throw new MethodNotAllowedException();
         }
