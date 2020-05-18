@@ -3,7 +3,8 @@
 class ThoughtsController extends AppController 
 {
     
-    public function view($id = null){
+    public function view($id = null)
+    {
         if (!$id) {
             throw new  NotFoundException(__('Invalid post'));
         }
@@ -16,7 +17,8 @@ class ThoughtsController extends AppController
         $this->set(compact( 'document','thoughts', 'newThoughts'));
     }
 
-    public function add($id =null) {
+    public function add($id =null) 
+    {
         if ($this->request->is('post')) {
             $this->Thought->create();
             $document_id = $id;
@@ -33,7 +35,8 @@ class ThoughtsController extends AppController
         }
     }
 
-    public function edit($id = null, $document_id = null) {
+    public function edit($id = null, $document_id = null) 
+    {
         if (!$id) {
             throw new NotFoundException(__('無効な投稿です。'));
         }
@@ -56,7 +59,8 @@ class ThoughtsController extends AppController
         }
     }
 
-    public function delete($id = null, $document_id = null) {
+    public function delete($id = null, $document_id = null) 
+    {
         if ($this->request->is('get')) {
             throw new MethodNotAllowedException();
         }
