@@ -1,0 +1,19 @@
+.like.hide {
+    display: none;
+}
+
+.fa-thumbs-up {
+    color: crimson;
+}
+
+.clear-decoration {
+    border: none;
+    outline: none　!important; /* クリックしたときに表示される枠線を消す */
+    /* 枠線を消す */
+    background: transparent; /* 背景の灰色を消す */
+}
+
+.clear-decoration:focus {
+    outline: 0; /* クリックしたときに表示される枠線を消す */
+
+}
