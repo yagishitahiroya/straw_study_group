@@ -1,6 +1,7 @@
 <?php
 
-class ThoughtsController extends AppController {
+class ThoughtsController extends AppController 
+{
     
     public function view($id = null){
         if (!$id) {
@@ -61,18 +62,18 @@ class ThoughtsController extends AppController {
         }
         
         if ($this->Thought->delete($id)) {
-            $this->Flash->flash_success(
+            $this->Flash->flash_success　(
                 __('投稿を削除しました。 ')
             );
             
         } else {
-            $this->Flash->flash_error(
+            $this->Flash->flash_error　(
                 __('投稿を削除できませんでした。')
             );
         }
         //$this->log($thread_id, LOG_DEBUG);
         //$threadId = $message->thread_id;
         //$message = $this->Message->get($id, ['contain' => ['thread_id']]);
-        return $this->redirect(['action' => 'view', $document_id]);
+        return $this->redirect　(['action' => 'view', $document_id]);
     }
 }
