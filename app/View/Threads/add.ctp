@@ -13,10 +13,23 @@
 
 
 <div class = "container">
-    <?=$this->Form->create('Thread');?>
+    <?=$this->Form->create ('Thread');?>
 
     <div class="form-group ">
-    <?= $this->Form->input('title',['label' => ['text' => 'タイトル', 
+    <?= $this->Form->input ('type',[
+        'label' => 'スレッドタイプ',
+        'type' => 'select',
+        'options' => [
+            'したい' => 'したい',
+            'できる' => 'できる',
+        ],
+        'empty' => '選択してください'
+    ]);
+    ?>
+    </div>
+
+    <div class="form-group ">
+    <?= $this->Form->input ('title',['label' => ['text' => 'タイトル', 
                                     'for' => 'formGroupExampleInput'], 
                                     'class' => 'form-control', 
                                     'id' => 'formGroupExampleInput',
@@ -24,7 +37,7 @@
     ?>
     </div>
     <div class="form-group">
-    <?= $this->Form->input('details',['label' => ['text' => '詳細', 
+    <?= $this->Form->input ('details',['label' => ['text' => '詳細', 
                                         'for' => 'formGroupExampleInput2'], 
                                         'rows' => '4',
                                         'class' => 'form-control',
@@ -32,8 +45,8 @@
                                         'placeholder' => 'タイトル']);
     ?>
     </div>
-    <?= $this->Form->submit('スレッドを立てる', ["class"=>"btn btn-primary "]);?>
-    <?= $this->Html->link('戻る', ['action' => 'threads'],['class' => 'btn btn-secondary']); ?>  
+    <?= $this->Form->submit ('スレッドを立てる', ["class"=>"btn btn-primary "]);?>
+    <?= $this->Html->link ('戻る', ['action' => 'threads'],['class' => 'btn btn-secondary']); ?>  
 </div>
 <?= $this->Form->end();?>
 
