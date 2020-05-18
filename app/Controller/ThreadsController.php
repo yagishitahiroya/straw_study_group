@@ -1,7 +1,12 @@
 <?php
 
-class ThreadsController extends AppController {
+App::import("Controller", "ThreadLikes");
+App::uses('HttpSocket', 'Network/Http');
+
+class ThreadsController extends AppController 
+{
     public $helpers = ['Html', 'Form'];
+    public $components = ['GetLikes'];
 
     public $paginate = array(
         'limit' => 5,
@@ -10,22 +15,47 @@ class ThreadsController extends AppController {
         )
     );
 
-    public function threads() {
+    public function getWantPaginate() 
+    {
+
+    }
+
+    public function getCanPaginate() 
+    {
+        
+    }
+
+    public function threads() 
+    {
         //$threads = $this->Thread->find('all');
         //$this->set(compact('threads'));
+        $wants = $this->Thread->find('all', ['conditions' => ['type' => 'したい']]);
+        $cans = $this->Thread->find('all', ['conditions' => ['type' => 'できる']]);
+        // $wants_ajax = $this->Thread->ThreadLike->find('all', ['conditions' => ['type' => 'したい']]);
 
-        $this->set('threads', $this->paginate());
+        //$like = $this->Thread->ThreadsLike->find('all');
+        //$likes = $this->GetLikes->getLoginUsersLikes();
+        //$this->set('threads', $this->paginate());
+        $ThreadLikesController = new ThreadLikesController;
+        $likes_data = $ThreadLikesController->likes_data();
+        // $likes_count = $ThreadLikesController->add();
+        // $this->log($likes_count, LOG_DEBUG);
+        $thread_like = $this->Thread->ThreadLike->find('all',['conditions' => ['type' => 'したい']]);
+        // $this->log($thread_like,LOG_DEBUG);
+        $this->set(compact('wants', 'cans','likes_data'));
 
     }
     
-    public function add() {
+    public function add() 
+    {
         if ($this->request->is('post')) {
             $this->Thread->create();
-            $this->Thread->user_id = $this->Auth->user('id');
+            //$this->Thread->user_id = $this->Auth->user('id');
             $thread = $this->request->data;
             //$this->log($thread, LOG_DEBUG);
             $thread['Thread']['user_id'] = $this->Auth->user('id');
             if ($this->Thread->save($thread)) {
+                $this->chatWorkNotification($thread);
                 $this->Flash->flash_success(__('スレッドが保存されました'));
                 return $this->redirect(['action' => 'threads']);
             }
@@ -33,7 +63,32 @@ class ThreadsController extends AppController {
         }
     }
 
-    public function edit($id = null, $user_id = null) {
+    public function chatWorkNotification($thread) 
+    {
+        //chatworkに通知を送るメソッド
+        //HttpSocket()を利用して送信の場合post
+        $Auth = $this->Auth->user('nickname');
+        $content = $Auth . "さんがスレッドを投稿しました！";
+        $request = ['header' => [
+            'X-ChatWorkToken' => CHATWORKTOKEN,
+            'Content-Type' => 'application/x-www-form-urlencoded'],
+            'body' => ['body' => $content]
+            ];
+        $url = "https://api.chatwork.com/v2/rooms/". CHATWORKROOMID ."/messages";
+
+        //$thread_data = $this->Thread->findById($thread['Thread']['id']);
+        $data = [];
+        $HttpSocket = new HttpSocket();
+
+        if (!empty($thread)) {
+            $response = $HttpSocket->post($url, $data, $request);
+        }
+        $this->log($response, LOG_DEBUG);
+
+    }
+
+    public function edit($id = null, $user_id = null) 
+    {
         if (!$id) {
             throw new NotFoundException(__('無効なスレッドです'));
         }
@@ -65,7 +120,8 @@ class ThreadsController extends AppController {
         }
     }
 
-    public function delete($id = null , $user_id = null) {
+    public function delete($id = null , $user_id = null) 
+    {
         if ($this->request->is('get')) {
             throw new MethodNotAllowedException();
         }
