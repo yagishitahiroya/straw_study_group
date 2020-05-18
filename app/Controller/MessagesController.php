@@ -1,8 +1,10 @@
 <?php
 
-class MessagesController extends AppController {
+class MessagesController extends AppController 
+{
     
-    public function view($id = null){
+    public function view($id = null)
+    {
         if (!$id) {
             throw new  NotFoundException(__('Invalid post'));
         }
@@ -15,7 +17,8 @@ class MessagesController extends AppController {
         $this->set(compact( 'thread','messages', 'newMessages'));
     }
 
-    public function add() {
+    public function add() 
+    {
         if ($this->request->is('post')) {
             $this->Message->create();
             $message = $this->request->data;
@@ -30,7 +33,8 @@ class MessagesController extends AppController {
         }
     }
 
-    public function edit($id = null, $thread_id = null, $user_id = null) {
+    public function edit($id = null, $thread_id = null, $user_id = null) 
+    {
         if (!$id) {
             throw new NotFoundException(__('無効な投稿です。'));
         }
@@ -63,7 +67,8 @@ class MessagesController extends AppController {
         $this->set(compact('message'));
     }
 
-    public function delete($id = null, $thread_id = null, $user_id = null) {
+    public function delete($id = null, $thread_id = null, $user_id = null) 
+    {
         if ($this->request->is('get')) {
             throw new MethodNotAllowedException();
         }
