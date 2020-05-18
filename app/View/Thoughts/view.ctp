@@ -19,7 +19,7 @@
             </div>
             <div class="card-body">
                 <h4 class="card-title"><?= h($document['Document']['title']); ?></h4>
-                <p class="card-text"><?= h($document['Document']['details']); ?></p>
+                <p class="card-text"><?= nl2br(h($document['Document']['details'])); ?></p>
                 <?= h($document['Document']['name']);?> :
                 <?= $this->Html->link('ファイルダウンロード', ['controller' => 'documents','action' => 'download',$document['Document']['filename'],$document['Document']['name']],['class' => 'btn btn-outline-secondary']);?>
             </div>
