@@ -21,7 +21,7 @@
     <!-- ここから、$posts配列をループして、投稿記事の情報を表示 -->
 
     <!-- <?php foreach ($threads as $thread): ?> -->
-        
+
     <!-- <tr>
         <td><?= h($thread['User']['nickname'])?></td>
         <td>
@@ -36,15 +36,15 @@
         <?php if ($auth['id']=== $thread['Thread']['user_id']): ?>
         <td>
             <?= $this->Html->link('編集', ['action' => 'edit', $thread['Thread']['id'],$thread['Thread']['user_id']]); ?>
-            <?= $this->Form->postLink('削除', 
-                ['action' => 'delete', $thread['Thread']['id'],$thread['Thread']['user_id']], 
+            <?= $this->Form->postLink('削除',
+                ['action' => 'delete', $thread['Thread']['id'],$thread['Thread']['user_id']],
                 ['confirm' => 'スレッドを削除するとコメントも削除されます。本当によろしいですか？'])
             ?>
         </td>
         <?php endif;?>
     </tr>
     <?php endforeach; ?>
-        
+
     <?php unset($thread); ?>
 </table> -->
 
@@ -53,13 +53,13 @@
 
 <!-- <?php foreach ($threads as $thread): ?>
 <div class="list-group container  list-group-item list-group-item-action flex-column align-items-start">
-    <?= h($thread['User']['nickname'])?>    
+    <?= h($thread['User']['nickname'])?>
     <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1"><?= $this->Html->link($thread['Thread']['title'],['controller' => 'messages', 'action' => 'view', $thread['Thread']['id']]); ?></h5>
 
         <?php $format_date = strtotime(h($thread['Thread']['created'])); ?>
         <small><?= h(date('Y年m月d日 H時i分', $format_date)); ?></small>
-        
+
     </div>
     <p class="mb-1"><?= h($thread['Thread']['details']);?></p>
     <?php if ($auth['id']=== $thread['Thread']['user_id']): ?>
@@ -67,12 +67,12 @@
         <p></p>
         <div>
         <?= $this->Html->link('編集', ['action' => 'edit', $thread['Thread']['id'],$thread['Thread']['user_id']],['class' => 'btn btn-outline-info']); ?>
-        <?= $this->Form->postLink('削除', 
-                ['action' => 'delete', $thread['Thread']['id'],$thread['Thread']['user_id']], 
+        <?= $this->Form->postLink('削除',
+                ['action' => 'delete', $thread['Thread']['id'],$thread['Thread']['user_id']],
                 ['class' => 'btn btn-outline-danger'],['confirm' => 'スレッドを削除するとコメントも削除されます。本当によろしいですか？'])
             ?>
         </div>
-            
+
         </div>
         <?php endif;?>
 </div>
@@ -92,7 +92,7 @@
 
             <?php foreach ($wants as $want): ?>
             <div class="list-group container  list-group-item list-group-item-action flex-column align-items-start">
-                <?= h($want['User']['nickname'])?>    
+                <?= h($want['User']['nickname'])?>
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1"><?= $this->Html->link($want['Thread']['title'],['controller' => 'messages', 'action' => 'view', $want['Thread']['id']]); ?></h5>
 
@@ -100,17 +100,17 @@
                     <small><?= h(date('Y年m月d日 H時i分', $format_date)); ?></small>
 
                     </div>
-                    <p class="mb-1"><?= h($want['Thread']['details']);?></p>
+                    <p class="mb-1"><?= nl2br(h($want['Thread']['details']));?></p>
 
                     <?php if ($auth['id']=== $want['Thread']['user_id']): ?>
                     <div class="d-flex justify-content-between">
                     <p></p>
-                    
+
 
                     <div>
                     <?= $this->Html->link('編集', ['action' => 'edit', $want['Thread']['id'],$want['Thread']['user_id']],['class' => 'btn btn-outline-info']); ?>
-                    <?= $this->Form->postLink('削除', 
-                        ['action' => 'delete', $want['Thread']['id'],$want['Thread']['user_id']], 
+                    <?= $this->Form->postLink('削除',
+                        ['action' => 'delete', $want['Thread']['id'],$want['Thread']['user_id']],
                         ['class' => 'btn btn-outline-danger'],['confirm' => 'スレッドを削除するとコメントも削除されます。本当によろしいですか？'])
                     ?>
 
@@ -135,7 +135,7 @@
         <div id="panel2" class="tab_panel">
             <?php foreach ($cans as $can): ?>
             <div class="list-group container  list-group-item list-group-item-action flex-column align-items-start">
-                <?= h($can['User']['nickname'])?>    
+                <?= h($can['User']['nickname'])?>
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1"><?= $this->Html->link($can['Thread']['title'],['controller' => 'messages', 'action' => 'view', $can['Thread']['id']]); ?></h5>
 
@@ -143,14 +143,14 @@
                     <small><?= h(date('Y年m月d日 H時i分', $format_date)); ?></small>
 
                 </div>
-                <p class="mb-1"><?= h($can['Thread']['details']);?></p>
+                <p class="mb-1"><?= nl2br(h($can['Thread']['details']));?></p>
                 <?php if ($auth['id']=== $can['Thread']['user_id']): ?>
                 <div class="d-flex justify-content-between">
                 <p></p>
                 <div>
                     <?= $this->Html->link('編集', ['action' => 'edit', $can['Thread']['id'],$can['Thread']['user_id']],['class' => 'btn btn-outline-info']); ?>
-                    <?= $this->Form->postLink('削除', 
-                        ['action' => 'delete', $can['Thread']['id'],$can['Thread']['user_id']], 
+                    <?= $this->Form->postLink('削除',
+                        ['action' => 'delete', $can['Thread']['id'],$can['Thread']['user_id']],
                         ['class' => 'btn btn-outline-danger'],['confirm' => 'スレッドを削除するとコメントも削除されます。本当によろしいですか？'])
                     ?>
                 </div>
@@ -181,14 +181,14 @@
         <?= $this->Paginator->next('次へ >', [], null, ['class' => 'next disabled']); ?>
         <?= $this->Paginator->last('>>') ?>
         </div> -->
-        
+
 
 <div class = "container">
 <nav aria-label="..."  >
-  <ul class="pagination pagination-lg  ">
+　<ul class="pagination pagination-lg  ">
     <li class="page-item ">
-      <!-- <a class="page-link" href="#!" tabindex="-1">Previous</a> -->
-      <?= $this->Paginator->first('<<',['class'=>'page-link', 'tabindex' => '-1']); ?>
+        <!-- <a class="page-link" href="#!" tabindex="-1">Previous</a> -->
+        <?= $this->Paginator->first('<<',['class'=>'page-link', 'tabindex' => '-1']); ?>
     </li>
     <?= $this->Paginator->numbers(['separator' => '', 'class'=>'page-link']); ?>
 
@@ -196,7 +196,6 @@
     <?= $this->Paginator->last('>>',['class'=>'page-link', 'tabindex' => '-1']) ?>
 
     </li>
-  </ul>
+　</ul>
 </nav>
 </div>
-
