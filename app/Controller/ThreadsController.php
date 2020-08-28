@@ -3,7 +3,7 @@
 App::import("Controller", "ThreadLikes");
 App::uses('HttpSocket', 'Network/Http');
 
-class ThreadsController extends AppController 
+class ThreadsController extends AppController
 {
     public $helpers = ['Html', 'Form'];
     public $components = ['GetLikes'];
@@ -15,17 +15,17 @@ class ThreadsController extends AppController
         )
     );
 
-    public function getWantPaginate() 
+    public function getWantPaginate()
     {
 
     }
 
-    public function getCanPaginate() 
+    public function getCanPaginate()
     {
-        
+
     }
 
-    public function threads() 
+    public function threads()
     {
         //$threads = $this->Thread->find('all');
         //$this->set(compact('threads'));
@@ -45,8 +45,8 @@ class ThreadsController extends AppController
         $this->set(compact('wants', 'cans','likes_data'));
 
     }
-    
-    public function add() 
+
+    public function add()
     {
         if ($this->request->is('post')) {
             $this->Thread->create();
@@ -65,7 +65,7 @@ class ThreadsController extends AppController
         }
     }
 
-    public function chatWorkNotification($thread, $last_id) 
+    public function chatWorkNotification($thread, $last_id)
     {
         //chatworkに通知を送るメソッド
         //HttpSocket()
@@ -74,7 +74,7 @@ class ThreadsController extends AppController
         $title = $thread['Thread']['title'];
         $details = $thread['Thread']['details'];
         $thread_url = "http://localhost:9000/messages/view/" . $last_id;
-        $content = "[info][title]". $Auth . "さんがスレッドを投稿しました！" ."[/title]". "\n" . "【スレッドタイプ】: " . $type . "\n" . 
+        $content = "[info][title]". $Auth . "さんがスレッドを投稿しました！" ."[/title]". "\n" . "【スレッドタイプ】: " . $type . "\n" .
                     "【タイトル】: " . $title . "\n" . "【詳細】: " . $details . "\n" . "このスレッドを見にいく ➡️ ". $thread_url . "[/info]";
         $request = ['header' => [
             'X-ChatWorkToken' => 'a580f264a153a95e87ab5a99ee49a3d8',
@@ -87,24 +87,24 @@ class ThreadsController extends AppController
         $data = [];
         $HttpSocket = new HttpSocket();
 
-        if (!empty($thread)) {
-            $response = $HttpSocket->post($url, $data, $request);
-        }
-        $this->log($response, LOG_DEBUG);
+        // if (!empty($thread)) {
+        //     $response = $HttpSocket->post($url, $data, $request);
+        // }
+        // $this->log($response, LOG_DEBUG);
 
     }
 
-    public function edit($id = null, $user_id = null) 
+    public function edit($id = null, $user_id = null)
     {
         if (!$id) {
             throw new NotFoundException(__('無効なスレッドです'));
         }
-    
+
         $thread = $this->Thread->findById($id);
         if (!$thread) {
             throw new NotFoundException(__('無効なスレッドです'));
         }
-        
+
         if ($user_id !== $this->Auth->user('id')) {
             $this->Flash->error(
                 __('他のユーザーの投稿は削除できません')
@@ -121,13 +121,13 @@ class ThreadsController extends AppController
             }
             $this->Flash->flash_error(__('編集に失敗しました'));
         }
-    
+
         if (!$this->request->data) {
             $this->request->data = $thread;
         }
     }
 
-    public function delete($id = null , $user_id = null) 
+    public function delete($id = null , $user_id = null)
     {
         if ($this->request->is('get')) {
             throw new MethodNotAllowedException();
@@ -149,10 +149,10 @@ class ThreadsController extends AppController
                 __('スレッドの削除に失敗しました。')
             );
         }
-    
+
         return $this->redirect(array('action' => 'threads'));
     }
-    
+
     public function isAuthorized($user = null)
     {
         if (in_array($this->action, [
